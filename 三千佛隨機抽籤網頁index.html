@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>隨機抽佛號｜三千佛與我有緣</title>
+  <meta name="description" content="簡潔莊嚴的隨機抽佛號網頁，支援大量名單（3,000+）。" />
+  <style>
+    :root {
+      --bg1: #0b1026; /* 藏青 */
+      --bg2: #1b2852; /* 深藍 */
+      --gold: #d4af37; /* 金色 */
+      --gold-2: #f6e27a; /* 淡金 */
+      --ink: #e7e7ea; /* 文字 */
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, -apple-system, "Noto Sans TC", "PingFang TC", "Heiti TC", "Microsoft JhengHei", Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(1000px 600px at 50% -10%, rgba(212, 175, 55, .25), transparent 60%), linear-gradient(180deg, var(--bg1), var(--bg2));
+    }
+    .wrap {
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 720px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(246, 226, 122, .25);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35), inset 0 0 120px rgba(212,175,55,.06);
+      overflow: hidden;
+    }
+    .card__head {
+      padding: 24px 24px 0 24px;
+      text-align: center;
+    }
+    .title {
+      font-size: clamp(22px, 3.5vw, 32px);
+      line-height: 1.2;
+      margin: 0;
+      letter-spacing: 1px;
+      font-weight: 700;
+      color: var(--gold-2);
+      text-shadow: 0 0 20px rgba(212,175,55,.25);
+    }
+    .subtitle { 
+      opacity: .8; 
+      margin-top: 6px; 
+      font-size: 14px; 
+    }
+    .lotus {
+      height: 120px;
+      background:
+        radial-gradient(closest-side, rgba(246,226,122,.35), transparent 70%) center/100% 100% no-repeat,
+        radial-gradient(closest-side, rgba(246,226,122,.2), transparent 70%) center/100% 100% no-repeat;
+      filter: blur(0.2px);
+      position: relative;
+    }
+    .lotus::after{
+      content: "";
+      position:absolute; inset: 0; margin:auto; width:180px; height:180px; border-radius: 50%;
+      background: radial-gradient(circle at 50% 60%, rgba(255,255,255,.18), rgba(255,255,255,0) 60%);
+      animation: pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{transform: scale(0.98);} 50%{transform: scale(1.02);} }
+    .card__body { padding: 0 24px 24px 24px; text-align: center; }
+
+    .result {
+      min-height: 96px;
+      display: grid; place-items: center;
+      border-radius: 14px;
+      border: 1px dashed rgba(246,226,122,.35);
+      padding: 18px;
+      margin: 8px 0 16px;
+      font-size: clamp(22px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #fff;
+      background: linear-gradient(180deg, rgba(212,175,55,.12), rgba(255,255,255,0));
+      transition: transform .5s ease, box-shadow .5s ease;
+    }
+    .result.active { box-shadow: 0 8px 40px rgba(212,175,55,.25); transform: translateY(-2px); }
+
+    .hint { opacity: .75; font-size: 13px; margin-top: 6px; }
+
+    .row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    button {
+      appearance: none; border: 0; cursor: pointer;
+      padding: 12px 16px; border-radius: 999px; font-weight: 700; letter-spacing: .5px;
+      background: linear-gradient(180deg, var(--gold-2), var(--gold));
+      color: #2a1c00; box-shadow: 0 6px 20px rgba(212,175,55,.35);
+      transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+    }
+    button:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    button:active { transform: translateY(0); filter: brightness(.98); }
+    .btn-ghost { background: rgba(255,255,255,.08); color: var(--ink); box-shadow: none; border: 1px solid rgba(246,226,122,.25); }
+
+    details { margin-top: 14px; text-align: left; }
+    details > summary { cursor: pointer; opacity: .9; }
+    textarea {
+      width: 100%; min-height: 140px; margin-top: 8px; resize: vertical;
+      background: rgba(255,255,255,.04); color: var(--ink);
+      border: 1px solid rgba(246,226,122,.25); border-radius: 12px; padding: 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    .meta { opacity: .7; font-size: 12px; margin-top: 6px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="隨機抽佛號">
+      <div class="card__head">
+        <h1 class="title">隨機抽佛號</h1>
+        <div class="subtitle">在無量佛中，隨緣值遇其一，願起清淨發心。</div>
+      </div>
+      <div class="lotus" aria-hidden="true"></div>
+      <div class="card__body">
+        <div id="result" class="result" aria-live="polite">點擊「抽一尊」開始</div>
+        <div class="row" role="group" aria-label="操作">
+          <button id="drawBtn" aria-label="抽出一尊佛">抽一尊</button>
+          <button id="copyBtn" class="btn-ghost" aria-label="複製佛號">複製佛號</button>
+          <button id="resetBtn" class="btn-ghost" aria-label="重置">重置</button>
+        </div>
+        <div class="hint">※ 可離線使用。支援 3,000 筆以上名單。</div>
+
+        <details>
+          <summary>管理：匯入名單（每行一筆）</summary>
+          <textarea id="listInput" placeholder="貼上佛號清單，每行一筆。例如：\n釋迦牟尼佛\n阿彌陀佛\n藥師琉璃光如來\n……"></textarea>
+          <div class="row" style="margin-top:8px">
+            <button id="importBtn" class="btn-ghost">匯入名單</button>
+            <button id="downloadBtn" class="btn-ghost">下載本頁（離線備份）</button>
+          </div>
+          <div id="count" class="meta">目前名單：<span id="countNum">0</span> 筆</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === 1) 預設名單（示範）===
+    // ✔ 正式使用：請把 3000 佛號貼到下方陣列，或用「匯入名單」功能貼上（每行一筆）。
+    const DEFAULT_NAMES = [
+      "釋迦牟尼佛",
+      "阿彌陀佛",
+      "藥師琉璃光如來",
+      "毘盧遮那佛",
+      "大日如來",
+      "觀世音菩薩",
+      "大勢至菩薩",
+      "文殊師利菩薩",
+      "普賢菩薩",
+      "地藏王菩薩"
+      // …在這裡繼續貼上，直到 3,000+ 筆
+    ];
+
+    // 如需一次貼上大量名單：
+    // 1) 展開「匯入名單」→ 貼到文字框（每行一筆）→ 按「匯入名單」。
+    // 2) 若要永久寫入檔案，可將 DEFAULT_NAMES 改成你的清單後，重新上傳 index.html。
+
+    let NAMES = DEFAULT_NAMES.slice();
+
+    const $ = (sel) => document.querySelector(sel);
+    const resultEl = $('#result');
+    const countEl = $('#countNum');
+
+    function updateCount(){ countEl.textContent = NAMES.length.toLocaleString(); }
+
+    function drawOnce(){
+      if (!NAMES.length) {
+        resultEl.textContent = '名單為空，請先匯入或填入佛號。';
+        resultEl.classList.remove('active');
+        return;
+      }
+      const i = Math.floor(Math.random() * NAMES.length);
+      const name = NAMES[i];
+      resultEl.textContent = name;
+      resultEl.classList.remove('active');
+      // 小延遲觸發動畫
+      requestAnimationFrame(() => { setTimeout(() => resultEl.classList.add('active'), 30); });
+    }
+
+    function copyResult(){
+      const text = resultEl.textContent.trim();
+      if(!text || text.includes('點擊')) { alert('尚未抽取佛號。'); return; }
+      navigator.clipboard?.writeText(text).then(() => {
+        alert('已複製：' + text);
+      }).catch(() => alert('您的瀏覽器不支援自動複製，請手動複製。'));
+    }
+
+    function reset(){
+      NAMES = DEFAULT_NAMES.slice();
+      resultEl.textContent = '點擊「抽一尊」開始';
+      resultEl.classList.remove('active');
+      updateCount();
+    }
+
+    function importList(){
+      const raw = $('#listInput').value.trim();
+      if(!raw){ alert('請先貼入名單（每行一筆）。'); return; }
+      const arr = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      if(!arr.length){ alert('未解析到有效名單。'); return; }
+      NAMES = arr;
+      resultEl.textContent = '名單已更新，點擊「抽一尊」。';
+      resultEl.classList.remove('active');
+      updateCount();
+      alert('匯入完成，共 ' + arr.length + ' 筆。');
+    }
+
+    function downloadSelf(){
+      // 下載目前頁面（含您編輯的 DEFAULT_NAMES）以便離線備份
+      const html = document.documentElement.outerHTML;
+      const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    // 綁定事件
+    $('#drawBtn').addEventListener('click', drawOnce);
+    $('#copyBtn').addEventListener('click', copyResult);
+    $('#resetBtn').addEventListener('click', reset);
+    $('#importBtn').addEventListener('click', importList);
+    $('#downloadBtn').addEventListener('click', downloadSelf);
+
+    updateCount();
+  </script>
+</body>
+</html>
