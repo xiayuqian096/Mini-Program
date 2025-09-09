@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>恭祝地藏菩薩聖誕　線上祈福留言區</title>
+  <title>中國風祈福牆</title>
   <style>
     body {
       font-family: "Noto Serif TC", serif;
@@ -13,7 +13,7 @@
       background: #fdfaf3 url("https://www.transparenttextures.com/patterns/paper-fibers.png");
       background-size: cover;
       overflow-x: hidden;
-      animation: bgFlow 60s linear infinite; /* 背景流動 */
+      animation: bgFlow 60s linear infinite;
     }
 
     h1 {
@@ -111,7 +111,7 @@
       50%      { box-shadow: 0 4px 20px rgba(191,164,111,0.6); }
     }
 
-    /* 點擊互動：縮放 + 金光 */
+    /* 點擊互動 */
     .card:active {
       transform: scale(0.97);
       box-shadow: 0 0 25px rgba(191,164,111,0.9);
@@ -123,20 +123,21 @@
       to   { background-position: 200px 200px; }
     }
 
-    /* 飄落符號 */
+    /* 往上飛的祈福字 */
     .falling {
       position: fixed;
-      top: -50px;
+      bottom: -50px;
       font-size: 28px;
       color: rgba(139, 0, 0, 0.4);
-      animation: fall linear forwards;
+      animation: rise linear forwards;
       pointer-events: none;
       z-index: 1;
     }
-    @keyframes fall {
+
+    @keyframes rise {
       0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-      50%  { transform: translateY(50vh) rotate(180deg) translateX(20px); opacity: 0.6; }
-      100% { transform: translateY(100vh) rotate(360deg) translateX(-20px); opacity: 0; }
+      50%  { transform: translateY(-50vh) rotate(180deg) translateX(20px); opacity: 0.6; }
+      100% { transform: translateY(-100vh) rotate(360deg) translateX(-20px); opacity: 0; }
     }
   </style>
 </head>
@@ -148,7 +149,7 @@
   </div>
 
 <script>
-  const sheetURL = "https://opensheet.elk.sh/1YR3_qziz-R7c09fBh1QcKnQR5Dvyc0JgfJXdDpdRnzE/baiodan 1";
+  const sheetURL = "https://opensheet.elk.sh/1YR3_qziz-R7c09fBh1QcKnQR5Dvyc0JgfJXdDpdRnzE/responses";
   const symbols = ["福", "吉", "安", "祥"];
 
   function formatDate(dateString) {
@@ -190,8 +191,8 @@
   loadWishes();
   setInterval(loadWishes, 30000);
 
-  // 飄落福字效果
-  function createFallingSymbol() {
+  // 往上飛的祈福字
+  function createRisingSymbol() {
     const el = document.createElement("div");
     el.className = "falling";
     el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
@@ -200,7 +201,7 @@
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 8000);
   }
-  setInterval(createFallingSymbol, 2000);
+  setInterval(createRisingSymbol, 2000);
 </script>
 </body>
 </html>
