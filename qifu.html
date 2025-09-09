@@ -17,7 +17,6 @@
       position: relative;
     }
 
-    /* 🌟 佛光漸層背景 */
     body::before {
       content: "";
       position: fixed;
@@ -62,8 +61,6 @@
       justify-content: space-between;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       position: relative;
-
-      /* 動畫效果 */
       opacity: 0;
       animation: fadeInUp 0.8s ease forwards, glow 4s infinite ease-in-out;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -114,37 +111,31 @@
       margin-top: 5px;
     }
 
-    /* 卡片進場動畫 */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* 卡片光暈呼吸效果 */
     @keyframes glow {
       0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
       50%      { box-shadow: 0 4px 20px rgba(191,164,111,0.6); }
     }
 
-    /* 點擊互動 */
     .card:active {
       transform: scale(0.97);
       box-shadow: 0 0 25px rgba(191,164,111,0.9);
     }
 
-    /* 背景緩慢流動 */
     @keyframes bgFlow {
       from { background-position: 0 0; }
       to   { background-position: 200px 200px; }
     }
 
-    /* 佛光旋轉 */
     @keyframes rotateLight {
       from { transform: translate(-50%, -50%) rotate(0deg); }
       to   { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
-    /* 往上飛的祈福字 */
     .falling {
       position: fixed;
       bottom: -50px;
@@ -160,6 +151,32 @@
       50%  { transform: translateY(-50vh) rotate(180deg) translateX(20px); opacity: 0.6; }
       100% { transform: translateY(-100vh) rotate(360deg) translateX(-20px); opacity: 0; }
     }
+
+    /* 分頁控制 */
+    .pagination {
+      margin-top: 20px;
+      text-align: center;
+      z-index: 2;
+      position: relative;
+    }
+    .pagination button {
+      margin: 0 4px;
+      padding: 6px 12px;
+      border: none;
+      background: #8b0000;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .pagination button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .pagination .active {
+      background: #bfa46f;
+      color: black;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -169,60 +186,59 @@
     <p>載入中...</p>
   </div>
 
+  <div class="pagination" id="pagination"></div>
+
 <script>
   const sheetURL = "https://opensheet.elk.sh/1YR3_qziz-R7c09fBh1QcKnQR5Dvyc0JgfJXdDpdRnzE/baiodan 1";
   const symbols = ["福", "吉", "安", "祥"];
+  const pageSize = 50;
+  let allData = [];
+  let currentPage = 1;
 
   function formatDate(dateString) {
     return dateString;
   }
 
-  async function loadWishes() {
-    try {
-      const res = await fetch(sheetURL);
-      if (!res.ok) throw new Error("API 回應錯誤：" + res.status);
-      const data = await res.json();
+  function renderPage(page) {
+    const board = document.getElementById("wishBoard");
+    board.innerHTML = "";
 
-      const board = document.getElementById("wishBoard");
-      board.innerHTML = "";
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    const pageData = allData.slice(start, end);
 
-      data.forEach(row => {
-        if (row["祈福內容"]) {
-          const card = document.createElement("div");
-          card.className = "card";
+    pageData.forEach(row => {
+      if (row["祈福內容"]) {
+        const card = document.createElement("div");
+        card.className = "card";
 
-          const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-          card.style.animationDelay = (Math.random() * 0.8) + "s";
+        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+        card.style.animationDelay = (Math.random() * 0.8) + "s";
 
-          card.innerHTML = `
-            <div class="symbol">${symbol}</div>
-            <div class="content">${row["祈福內容"]}</div>
-            <div class="author">🙏 ${row["祈福人"] || "匿名"}</div>
-            <div class="date">${formatDate(row["時間戳記"])}</div>
-          `;
-          board.appendChild(card);
-        }
-      });
-    } catch (err) {
-      console.error("載入失敗", err);
-      document.getElementById("wishBoard").innerHTML = "<p>⚠️ 無法載入祈福資料</p>";
-    }
+        card.innerHTML = `
+          <div class="symbol">${symbol}</div>
+          <div class="content">${row["祈福內容"]}</div>
+          <div class="author">🙏 ${row["祈福人"] || "匿名"}</div>
+          <div class="date">${formatDate(row["時間戳記"])}</div>
+        `;
+        board.appendChild(card);
+      }
+    });
+
+    renderPagination();
   }
 
-  loadWishes();
-  setInterval(loadWishes, 30000);
+  function renderPagination() {
+    const totalPages = Math.ceil(allData.length / pageSize);
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
 
-  // 往上飛的祈福字
-  function createRisingSymbol() {
-    const el = document.createElement("div");
-    el.className = "falling";
-    el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-    el.style.left = Math.random() * window.innerWidth + "px";
-    el.style.animationDuration = (4 + Math.random() * 4) + "s";
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 8000);
-  }
-  setInterval(createRisingSymbol, 2000);
-</script>
-</body>
-</html>
+    // 上一頁
+    const prevBtn = document.createElement("button");
+    prevBtn.innerText = "上一頁";
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.onclick = () => { currentPage--; renderPage(currentPage); };
+    pagination.appendChild(prevBtn);
+
+    // 頁碼按鈕
+    for (let i = 1; i <= tot
