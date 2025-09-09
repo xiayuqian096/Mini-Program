@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>祈福牆測試</title>
+  <style>
+    body {
+      font-family: "Noto Serif TC", serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      background: #fdfaf3 url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+      background-size: cover;
+      overflow-x: hidden;
+    }
+    h1 {
+      color: #8b0000;
+      margin-bottom: 10px;
+      font-weight: bold;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    .board {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 10px;
+    }
+    .card {
+      width: 200px;
+      min-height: 300px;
+      background: #fffdf6;
+      border: 2px solid #bfa46f;
+      border-radius: 12px;
+      padding: 20px 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 20px;
+      background: #8b0000;
+      border-radius: 5px;
+    }
+    .symbol {
+      font-size: 34px;
+      font-weight: bold;
+      color: #8b0000;
+      margin: 10px 0;
+      font-family: "KaiTi", "DFKai-SB", serif;
+    }
+    .content {
+      background: rgba(255,255,255,0.8);
+      border: 1px dashed #bfa46f;
+      padding: 12px;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #333;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+    .author {
+      font-size: 14px;
+      color: #444;
+      text-align: left;
+      margin-top: 8px;
+    }
+    .date {
+      font-size: 12px;
+      color: #666;
+      text-align: right;
+      margin-top: 5px;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+    .falling {
+      position: fixed;
+      top: -50px;
+      font-size: 28px;
+      color: rgba(139, 0, 0, 0.4);
+      animation: fall linear forwards;
+      pointer-events: none;
+      z-index: 999;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🧧 線上祈福牆（測試版）🧧</h1>
+
+  <div class="board" id="wishBoard"></div>
+
+<script>
+  const symbols = ["福", "吉", "安", "祥"];
+
+  // 測試用假資料
+  const data = [
+    { "祈福內容": "願家人平安健康", "祈福人": "王小明", "時間戳記": "2025/09/09 10:00:00" },
+    { "祈福內容": "祈求事業順利", "祈福人": "匿名", "時間戳記": "2025/09/09 11:30:00" }
+  ];
+
+  const board = document.getElementById("wishBoard");
+
+  data.forEach(row => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+    card.style.animationDelay = (Math.random() * 1) + "s"; // 隨機延遲
+
+    card.innerHTML = `
+      <div class="symbol">${symbol}</div>
+      <div class="content">${row["祈福內容"]}</div>
+      <div class="author">🙏 ${row["祈福人"]}</div>
+      <div class="date">${row["時間戳記"]}</div>
+    `;
+    board.appendChild(card);
+  });
+
+  // 飄落福字
+  function createFallingSymbol() {
+    const el = document.createElement("div");
+    el.className = "falling";
+    el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+    el.style.left = Math.random() * window.innerWidth + "px";
+    el.style.animationDuration = (4 + Math.random() * 4) + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 8000);
+  }
+  setInterval(createFallingSymbol, 2000);
+</script>
+</body>
+</html>
