@@ -65,7 +65,7 @@
 
       /* 動畫效果 */
       opacity: 0;
-      animation: fadeInUp 0.8s ease forwards, glow 4s infinite ease-in-out, float 6s ease-in-out infinite;
+      animation: fadeInUp 0.8s ease forwards, glow 4s infinite ease-in-out;
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
@@ -124,12 +124,6 @@
     @keyframes glow {
       0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
       50%      { box-shadow: 0 4px 20px rgba(191,164,111,0.6); }
-    }
-
-    /* 卡片漂浮效果 */
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-6px); }
     }
 
     /* 點擊互動 */
