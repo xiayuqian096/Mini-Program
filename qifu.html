@@ -221,4 +221,14 @@
   // 往上飛的祈福字
   function createRisingSymbol() {
     const el = document.createElement("div");
-    el
+    el.className = "falling";
+    el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+    el.style.left = Math.random() * window.innerWidth + "px";
+    el.style.animationDuration = (4 + Math.random() * 4) + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 8000);
+  }
+  setInterval(createRisingSymbol, 2000);
+</script>
+</body>
+</html>
