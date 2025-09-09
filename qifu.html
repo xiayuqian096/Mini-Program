@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>中國風祈福牆</title>
+  <title>恭祝地藏菩薩聖誕　線上祈福留言區</title>
   <style>
     body {
       font-family: "Noto Serif TC", serif;
       margin: 0;
       padding: 20px;
       text-align: center;
-      /* 背景：宣紙質感 + 水墨紋理 */
       background: #fdfaf3 url("https://www.transparenttextures.com/patterns/paper-fibers.png");
       background-size: cover;
       overflow-x: hidden;
+      animation: bgFlow 60s linear infinite; /* 背景流動 */
     }
+
     h1 {
       color: #8b0000;
       margin-bottom: 10px;
@@ -23,6 +24,7 @@
       position: relative;
       z-index: 2;
     }
+
     .board {
       margin-top: 40px;
       display: grid;
@@ -32,11 +34,12 @@
       position: relative;
       z-index: 2;
     }
+
     .card {
       width: 200px;
       min-height: 300px;
       background: #fffdf6;
-      border: 2px solid #bfa46f; /* 金色邊框 */
+      border: 2px solid #bfa46f;
       border-radius: 12px;
       padding: 20px 15px;
       display: flex;
@@ -44,10 +47,13 @@
       justify-content: space-between;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       position: relative;
-      opacity: 0; /* 初始隱藏，動畫淡入 */
-      animation: fadeInUp 0.8s ease forwards;
-      transition: transform 0.3s, box-shadow 0.3s;
+
+      /* 動畫效果 */
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards, glow 4s infinite ease-in-out;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+
     .card::before {
       content: "";
       position: absolute;
@@ -59,13 +65,15 @@
       background: #8b0000;
       border-radius: 5px;
     }
+
     .symbol {
       font-size: 34px;
       font-weight: bold;
       color: #8b0000;
       margin: 10px 0;
-      font-family: "KaiTi", "DFKai-SB", serif; /* 書法感 */
+      font-family: "KaiTi", "DFKai-SB", serif;
     }
+
     .content {
       background: rgba(255,255,255,0.8);
       border: 1px dashed #bfa46f;
@@ -74,14 +82,16 @@
       line-height: 1.6;
       color: #333;
       border-radius: 8px;
-      white-space: pre-wrap; /* 保留換行 */
+      white-space: pre-wrap;
     }
+
     .author {
       font-size: 14px;
       color: #444;
       text-align: left;
       margin-top: 8px;
     }
+
     .date {
       font-size: 12px;
       color: #666;
@@ -89,22 +99,28 @@
       margin-top: 5px;
     }
 
-    /* 進場動畫：淡入上升 */
+    /* 卡片進場動畫 */
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* 滑鼠懸停放大 */
-    .card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    /* 卡片光暈呼吸效果 */
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+      50%      { box-shadow: 0 4px 20px rgba(191,164,111,0.6); }
+    }
+
+    /* 點擊互動：縮放 + 金光 */
+    .card:active {
+      transform: scale(0.97);
+      box-shadow: 0 0 25px rgba(191,164,111,0.9);
+    }
+
+    /* 背景緩慢流動 */
+    @keyframes bgFlow {
+      from { background-position: 0 0; }
+      to   { background-position: 200px 200px; }
     }
 
     /* 飄落符號 */
@@ -112,17 +128,15 @@
       position: fixed;
       top: -50px;
       font-size: 28px;
-      color: rgba(139, 0, 0, 0.2);
+      color: rgba(139, 0, 0, 0.4);
       animation: fall linear forwards;
-      pointer-events: none; /* 不影響互動 */
+      pointer-events: none;
       z-index: 1;
     }
-
     @keyframes fall {
-      to {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      50%  { transform: translateY(50vh) rotate(180deg) translateX(20px); opacity: 0.6; }
+      100% { transform: translateY(100vh) rotate(360deg) translateX(-20px); opacity: 0; }
     }
   </style>
 </head>
@@ -135,9 +149,8 @@
 
 <script>
   const sheetURL = "https://opensheet.elk.sh/1YR3_qziz-R7c09fBh1QcKnQR5Dvyc0JgfJXdDpdRnzE/baiodan 1";
-  const symbols = ["福", "吉", "安", "祥"]; // 隨機顯示字
+  const symbols = ["福", "吉", "安", "祥"];
 
-  // 直接顯示完整時間
   function formatDate(dateString) {
     return dateString;
   }
@@ -157,9 +170,7 @@
           card.className = "card";
 
           const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-
-          // 每張卡片隨機延遲進場
-          card.style.animationDelay = (Math.random() * 0.5) + "s";
+          card.style.animationDelay = (Math.random() * 0.8) + "s";
 
           card.innerHTML = `
             <div class="symbol">${symbol}</div>
@@ -167,7 +178,6 @@
             <div class="author">🙏 ${row["祈福人"] || "匿名"}</div>
             <div class="date">${formatDate(row["時間戳記"])}</div>
           `;
-
           board.appendChild(card);
         }
       });
@@ -190,8 +200,6 @@
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 8000);
   }
-
-  // 每 2 秒生成一個飄落符號
   setInterval(createFallingSymbol, 2000);
 </script>
 </body>
