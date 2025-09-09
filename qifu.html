@@ -14,6 +14,21 @@
       background-size: cover;
       overflow-x: hidden;
       animation: bgFlow 60s linear infinite;
+      position: relative;
+    }
+
+    /* 🌟 佛光漸層背景 */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,223,128,0.25) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      animation: rotateLight 60s linear infinite;
+      z-index: 0;
     }
 
     h1 {
@@ -50,7 +65,7 @@
 
       /* 動畫效果 */
       opacity: 0;
-      animation: fadeInUp 0.8s ease forwards, glow 4s infinite ease-in-out;
+      animation: fadeInUp 0.8s ease forwards, glow 4s infinite ease-in-out, float 6s ease-in-out infinite;
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
@@ -111,6 +126,12 @@
       50%      { box-shadow: 0 4px 20px rgba(191,164,111,0.6); }
     }
 
+    /* 卡片漂浮效果 */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+
     /* 點擊互動 */
     .card:active {
       transform: scale(0.97);
@@ -121,6 +142,12 @@
     @keyframes bgFlow {
       from { background-position: 0 0; }
       to   { background-position: 200px 200px; }
+    }
+
+    /* 佛光旋轉 */
+    @keyframes rotateLight {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to   { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
     /* 往上飛的祈福字 */
@@ -194,14 +221,4 @@
   // 往上飛的祈福字
   function createRisingSymbol() {
     const el = document.createElement("div");
-    el.className = "falling";
-    el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-    el.style.left = Math.random() * window.innerWidth + "px";
-    el.style.animationDuration = (4 + Math.random() * 4) + "s";
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 8000);
-  }
-  setInterval(createRisingSymbol, 2000);
-</script>
-</body>
-</html>
+    el
