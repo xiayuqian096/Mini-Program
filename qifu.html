@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>恭祝地藏菩薩聖誕_線上祈福區</title>
+  <title>中國風祈福牆</title>
   <style>
     body {
       font-family: "Noto Serif TC", serif;
@@ -39,13 +39,12 @@
       z-index: 2;
     }
 
-    /* 📌 卡片區塊置中 */
     .board {
       margin-top: 40px;
       display: grid;
-      justify-content: center; /* 水平置中 */
+      justify-content: center;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      max-width: 1200px; /* 限制最大寬度 */
+      max-width: 1200px;
       margin-left: auto;
       margin-right: auto;
       gap: 20px;
@@ -68,7 +67,6 @@
       position: relative;
       opacity: 0;
       animation: fadeInUp 0.8s ease forwards, glow 4s infinite ease-in-out;
-      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .card::before {
@@ -126,11 +124,6 @@
       50%      { box-shadow: 0 4px 20px rgba(191,164,111,0.6); }
     }
 
-    .card:active {
-      transform: scale(0.97);
-      box-shadow: 0 0 25px rgba(191,164,111,0.9);
-    }
-
     @keyframes bgFlow {
       from { background-position: 0 0; }
       to   { background-position: 200px 200px; }
@@ -154,4 +147,140 @@
     @keyframes rise {
       0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
       50%  { transform: translateY(-50vh) rotate(180deg) translateX(20px); opacity: 0.6; }
-      100% { transform: translateY(-100vh) rotate(360deg) translateX(-20px); opaci
+      100% { transform: translateY(-100vh) rotate(360deg) translateX(-20px); opacity: 0; }
+    }
+
+    .pagination {
+      margin-top: 20px;
+      text-align: center;
+      z-index: 2;
+      position: relative;
+    }
+    .pagination button {
+      margin: 0 4px;
+      padding: 6px 12px;
+      border: none;
+      background: #8b0000;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .pagination button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .pagination .active {
+      background: #bfa46f;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧧 線上祈福牆 🧧</h1>
+
+  <div class="board" id="wishBoard">
+    <p>載入中...</p>
+  </div>
+
+  <div class="pagination" id="pagination"></div>
+
+<script>
+  const sheetURL = "https://opensheet.elk.sh/1YR3_qziz-R7c09fBh1QcKnQR5Dvyc0JgfJXdDpdRnzE/baiodan%201";
+  const symbols = ["福", "吉", "安", "祥"];
+  const pageSize = 50;
+  let allData = [];
+  let currentPage = 1;
+
+  function formatDate(dateString) {
+    return dateString;
+  }
+
+  function renderPage(page) {
+    const board = document.getElementById("wishBoard");
+    board.innerHTML = "";
+
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    const pageData = allData.slice(start, end);
+
+    pageData.forEach(row => {
+      if (row["祈福內容"]) {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+        card.style.animationDelay = (Math.random() * 0.8) + "s";
+
+        card.innerHTML = `
+          <div class="symbol">${symbol}</div>
+          <div class="content">${row["祈福內容"]}</div>
+          <div class="author">🙏 ${row["祈福人"] || "匿名"}</div>
+          <div class="date">${formatDate(row["時間戳記"])}</div>
+        `;
+        board.appendChild(card);
+      }
+    });
+
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(allData.length / pageSize);
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+
+    const prevBtn = document.createElement("button");
+    prevBtn.innerText = "上一頁";
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.onclick = () => { currentPage--; renderPage(currentPage); window.scrollTo({top:0, behavior:"smooth"}); };
+    pagination.appendChild(prevBtn);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const pageBtn = document.createElement("button");
+      pageBtn.innerText = i;
+      if (i === currentPage) pageBtn.classList.add("active");
+      pageBtn.onclick = () => { currentPage = i; renderPage(currentPage); window.scrollTo({top:0, behavior:"smooth"}); };
+      pagination.appendChild(pageBtn);
+    }
+
+    const nextBtn = document.createElement("button");
+    nextBtn.innerText = "下一頁";
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.onclick = () => { currentPage++; renderPage(currentPage); window.scrollTo({top:0, behavior:"smooth"}); };
+    pagination.appendChild(nextBtn);
+  }
+
+  async function loadWishes() {
+    try {
+      const res = await fetch(sheetURL);
+      if (!res.ok) throw new Error("API 回應錯誤：" + res.status);
+      const data = await res.json();
+
+      console.log("載入成功：", data);
+      allData = data.reverse();
+      currentPage = 1;
+      renderPage(currentPage);
+
+    } catch (err) {
+      console.error("載入失敗", err);
+      document.getElementById("wishBoard").innerHTML = `<p>⚠️ 無法載入祈福資料：${err.message}</p>`;
+    }
+  }
+
+  loadWishes();
+  setInterval(loadWishes, 30000);
+
+  function createRisingSymbol() {
+    const el = document.createElement("div");
+    el.className = "falling";
+    el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+    el.style.left = Math.random() * window.innerWidth + "px";
+    el.style.animationDuration = (6 + Math.random() * 4) + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 8000);
+  }
+  setInterval(createRisingSymbol, 2000);
+</script>
+</body>
+</html>
