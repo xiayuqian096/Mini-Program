@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>恭祝地藏菩薩聖誕　線上祈福留言區</title>
+  <title>恭祝地藏菩薩聖誕_線上祈福區</title>
   <style>
     body {
       font-family: "Noto Serif TC", serif;
@@ -39,10 +39,15 @@
       z-index: 2;
     }
 
+    /* 📌 卡片區塊置中 */
     .board {
       margin-top: 40px;
       display: grid;
+      justify-content: center; /* 水平置中 */
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      max-width: 1200px; /* 限制最大寬度 */
+      margin-left: auto;
+      margin-right: auto;
       gap: 20px;
       padding: 10px;
       position: relative;
@@ -149,96 +154,4 @@
     @keyframes rise {
       0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
       50%  { transform: translateY(-50vh) rotate(180deg) translateX(20px); opacity: 0.6; }
-      100% { transform: translateY(-100vh) rotate(360deg) translateX(-20px); opacity: 0; }
-    }
-
-    /* 分頁控制 */
-    .pagination {
-      margin-top: 20px;
-      text-align: center;
-      z-index: 2;
-      position: relative;
-    }
-    .pagination button {
-      margin: 0 4px;
-      padding: 6px 12px;
-      border: none;
-      background: #8b0000;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .pagination button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-    .pagination .active {
-      background: #bfa46f;
-      color: black;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <h1>🧧 線上祈福牆 🧧</h1>
-
-  <div class="board" id="wishBoard">
-    <p>載入中...</p>
-  </div>
-
-  <div class="pagination" id="pagination"></div>
-
-<script>
-  const sheetURL = "https://opensheet.elk.sh/1YR3_qziz-R7c09fBh1QcKnQR5Dvyc0JgfJXdDpdRnzE/baiodan%201";
-  const symbols = ["福", "吉", "安", "祥"];
-  const pageSize = 50;
-  let allData = [];
-  let currentPage = 1;
-
-  function formatDate(dateString) {
-    return dateString;
-  }
-
-  function renderPage(page) {
-    const board = document.getElementById("wishBoard");
-    board.innerHTML = "";
-
-    const start = (page - 1) * pageSize;
-    const end = start + pageSize;
-    const pageData = allData.slice(start, end);
-
-    pageData.forEach(row => {
-      if (row["祈福內容"]) {
-        const card = document.createElement("div");
-        card.className = "card";
-
-        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-        card.style.animationDelay = (Math.random() * 0.8) + "s";
-
-        card.innerHTML = `
-          <div class="symbol">${symbol}</div>
-          <div class="content">${row["祈福內容"]}</div>
-          <div class="author">懺悔弟子  ${row["祈福人"] || "匿名"} 頂禮🙏</div>
-          <div class="date">${formatDate(row["時間戳記"])}</div>
-        `;
-        board.appendChild(card);
-      }
-    });
-
-    renderPagination();
-  }
-
-  function renderPagination() {
-    const totalPages = Math.ceil(allData.length / pageSize);
-    const pagination = document.getElementById("pagination");
-    pagination.innerHTML = "";
-
-    // 上一頁
-    const prevBtn = document.createElement("button");
-    prevBtn.innerText = "上一頁";
-    prevBtn.disabled = currentPage === 1;
-    prevBtn.onclick = () => { currentPage--; renderPage(currentPage); };
-    pagination.appendChild(prevBtn);
-
-    // 頁碼按鈕
-    for (let i = 1; i <= tot
+      100% { transform: translateY(-100vh) rotate(360deg) translateX(-20px); opaci
