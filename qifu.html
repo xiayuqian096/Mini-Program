@@ -3,52 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>中國風祈福牆</title>
+  <title>恭祝地藏菩薩聖誕 線上祈福區</title>
   <style>
     body {
       font-family: "Noto Serif TC", serif;
       margin: 0;
       padding: 20px;
       text-align: center;
-      background: radial-gradient(circle at center, #fff8e1, #fdfaf3 70%);
-      background-attachment: fixed;
+      background: #fdfaf3 url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+      background-size: cover;
       overflow-x: hidden;
+      animation: bgFlow 60s linear infinite;
+      position: relative;
     }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,223,128,0.25) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      animation: rotateLight 60s linear infinite;
+      z-index: 0;
+    }
+
     h1 {
       color: #8b0000;
       margin-bottom: 10px;
       font-weight: bold;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-    }
-    /* 祈福表單按鈕 */
-    .form-link {
-      display: inline-block;
-      margin: 20px 0;
-      background: linear-gradient(135deg, #d4af37, #f9e79f);
-      color: #5a2d0c;
-      font-size: 20px;
-      font-weight: bold;
-      padding: 12px 28px;
-      border-radius: 30px;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      transition: transform 0.2s, box-shadow 0.2s;
       position: relative;
-      z-index: 9999;
+      z-index: 2;
     }
-    .form-link:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-    }
-    /* 祈福卡片 */
+
     .board {
-      margin-top: 30px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
       padding: 10px;
+      position: relative;
+      z-index: 2;
     }
+
     .card {
       width: 200px;
       min-height: 300px;
@@ -61,8 +61,11 @@
       justify-content: space-between;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       position: relative;
-      animation: fadeInUp 0.8s ease;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards, glow 4s infinite ease-in-out;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+
     .card::before {
       content: "";
       position: absolute;
@@ -74,6 +77,7 @@
       background: #8b0000;
       border-radius: 5px;
     }
+
     .symbol {
       font-size: 34px;
       font-weight: bold;
@@ -81,8 +85,9 @@
       margin: 10px 0;
       font-family: "KaiTi", "DFKai-SB", serif;
     }
+
     .content {
-      background: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.8);
       border: 1px dashed #bfa46f;
       padding: 12px;
       font-size: 18px;
@@ -90,90 +95,126 @@
       color: #333;
       border-radius: 8px;
       white-space: pre-wrap;
-      animation: shine 3s infinite linear;
     }
+
     .author {
       font-size: 14px;
       color: #444;
       text-align: left;
       margin-top: 8px;
     }
+
     .date {
       font-size: 12px;
       color: #666;
       text-align: right;
       margin-top: 5px;
     }
-    /* 分頁 */
-    .pagination {
-      margin: 25px 0;
-      text-align: center;
-    }
-    .pagination button {
-      margin: 0 5px;
-      padding: 6px 12px;
-      border: none;
-      border-radius: 6px;
-      background: #bfa46f;
-      color: white;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .pagination button:hover {
-      background: #8b0000;
-    }
-    .pagination .active {
-      background: #8b0000;
-    }
-    /* 卡片進場動畫 */
+
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    /* 卡片微微閃亮 */
-    @keyframes shine {
-      0%, 100% { box-shadow: none; }
-      50% { box-shadow: 0 0 12px rgba(191, 164, 111, 0.5); }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+      50%      { box-shadow: 0 4px 20px rgba(191,164,111,0.6); }
     }
-    /* 漂浮福字 */
+
+    .card:active {
+      transform: scale(0.97);
+      box-shadow: 0 0 25px rgba(191,164,111,0.9);
+    }
+
+    @keyframes bgFlow {
+      from { background-position: 0 0; }
+      to   { background-position: 200px 200px; }
+    }
+
+    @keyframes rotateLight {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to   { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
     .falling {
       position: fixed;
       bottom: -50px;
       font-size: 28px;
-      background: linear-gradient(180deg, #d4af37, #fff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: rgba(139, 0, 0, 0.4);
       animation: rise linear forwards;
       pointer-events: none;
       z-index: 1;
     }
+
     @keyframes rise {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      50% { transform: translateY(-50vh) rotate(180deg); opacity: 0.7; }
-      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      50%  { transform: translateY(-50vh) rotate(180deg) translateX(20px); opacity: 0.6; }
+      100% { transform: translateY(-100vh) rotate(360deg) translateX(-20px); opacity: 0; }
     }
+    #pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#pagination button {
+  margin: 0 5px;
+  padding: 6px 12px;
+  border: 1px solid #bfa46f;
+  background: #fffdf6;
+  color: #8b0000;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#pagination button.active {
+  background: #8b0000;
+  color: white;
+}
+
   </style>
+
+  <link rel="icon" type="image/png" href="DIZA.png">
 </head>
 <body>
   <h1>🧧 線上祈福牆 🧧</h1>
 
-  <a class="form-link" href="https://forms.gle/sFLdk3Cx75axtXCw7" target="_blank">
-    🕯 點此進入 線上祈福留言區
-  </a>
+  <br>
+  <div style="margin: 20px 0; text-align: center;">
+    <a href="https://forms.gle/sFLdk3Cx75axtXCw7" target="_blank"
+       style="
+         display: inline-block !important;
+         cursor: pointer !important;
+         background: linear-gradient(135deg, #d4af37, #f9e79f);
+         color: #5a2d0c;
+         font-size: 20px;
+         font-weight: bold;
+         padding: 12px 28px;
+         border-radius: 30px;
+         text-decoration: none;
+         box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+         transition: transform 0.2s, box-shadow 0.2s;
+         z-index: 9999;
+         position: relative;
+       "
+       onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)';"
+       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.15)';"
+    >
+      🕯 點此進入 線上留言祈福
+    </a>
+  </div>
 
   <div class="board" id="wishBoard">
     <p>載入中...</p>
   </div>
 
-  <div class="pagination" id="pagination"></div>
-
 <script>
-  const sheetURL = "https://opensheet.elk.sh/1YR3_qziz-R7c09fBh1QcKnQR5Dvyc0JgfJXdDpdRnzE/baiodan 1";
+let allData = [];        // 存放整份資料
+let currentPage = 1;     // 當前頁數
+const pageSize = 50;     // 每頁顯示幾筆（這裡是 50）
+
+
+  const sheetURL = "https://opensheet.elk.sh/1YR3_qziz-R7c09fBh1QcKnQR5Dvyc0JgfJXdDpdRnzE/「baiodan 1」的副本";
   const symbols = ["福", "吉", "安", "祥"];
-  let allData = [];
-  let currentPage = 1;
-  const pageSize = 50;
 
   function formatDate(dateString) {
     return dateString;
@@ -185,77 +226,108 @@
       if (!res.ok) throw new Error("API 回應錯誤：" + res.status);
       const data = await res.json();
 
-      console.log("載入成功：", data);
-      allData = data.reverse(); // 🔑 最新在最上方
-      currentPage = 1;
-      renderPage(currentPage);
+      const board = document.getElementById("wishBoard");
+      board.innerHTML = "";
 
+      const total = data.length; // 總筆數
+
+      // 依照時間戳記倒序排列，最新在前
+      data
+        .sort((a, b) => {
+          const timeA = Date.parse(a["時間戳記"].replace(/\//g, "-"));
+          const timeB = Date.parse(b["時間戳記"].replace(/\//g, "-"));
+          return timeB - timeA; // 新的在前
+        })
+        .forEach((row, index) => {
+          if (row["祈福內容"]) {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+            // 🔹 倒序動畫延遲，最新卡片最先出現
+            card.style.animationDelay = ((total - index - 1) * 0.2) + "s";
+
+            card.innerHTML = `
+              <div class="symbol">${symbol}</div>
+              <div class="content">${row["祈福內容"]}</div>
+              <div class="author">懺悔弟子　${row["祈福人"] || "匿名"} 頂禮 🙏</div>
+              <div class="date">${formatDate(row["時間戳記"])}</div>
+            `;
+            
+            // 🔹 確保最新留言在最上方
+            board.prepend(card);
+          }
+        });
     } catch (err) {
       console.error("載入失敗", err);
-      document.getElementById("wishBoard").innerHTML =
-        `<p>⚠️ 無法載入祈福資料：${err.message}</p>`;
+      document.getElementById("wishBoard").innerHTML = "<p>⚠️ 無法載入祈福資料</p>";
     }
   }
 
-  function renderPage(page) {
-    const board = document.getElementById("wishBoard");
-    board.innerHTML = "";
+  loadWishes();
+  setInterval(loadWishes, 30000);
 
-    const start = (page - 1) * pageSize;
-    const end = start + pageSize;
-    const pageData = allData.slice(start, end);
-
-    pageData.forEach(row => {
-      if (row["祈福內容"]) {
-        const card = document.createElement("div");
-        card.className = "card";
-
-        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-
-        card.innerHTML = `
-          <div class="symbol">${symbol}</div>
-          <div class="content">${row["祈福內容"]}</div>
-          <div class="author">🙏 ${row["祈福人"] || "匿名"}</div>
-          <div class="date">${formatDate(row["時間戳記"])}</div>
-        `;
-        board.appendChild(card);
-      }
-    });
-
-    renderPagination();
-  }
-
-  function renderPagination() {
-    const totalPages = Math.ceil(allData.length / pageSize);
-    const pagination = document.getElementById("pagination");
-    pagination.innerHTML = "";
-
-    for (let i = 1; i <= totalPages; i++) {
-      const btn = document.createElement("button");
-      btn.innerText = i;
-      if (i === currentPage) btn.classList.add("active");
-      btn.onclick = () => {
-        currentPage = i;
-        renderPage(currentPage);
-      };
-      pagination.appendChild(btn);
-    }
-  }
-
-  // 漂浮福字
+  // 往上飛的祈福字
   function createRisingSymbol() {
     const el = document.createElement("div");
     el.className = "falling";
     el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
     el.style.left = Math.random() * window.innerWidth + "px";
-    el.style.animationDuration = (5 + Math.random() * 5) + "s";
+    el.style.animationDuration = (4 + Math.random() * 4) + "s";
     document.body.appendChild(el);
-    setTimeout(() => el.remove(), 10000);
+    setTimeout(() => el.remove(), 8000);
   }
-  setInterval(createRisingSymbol, 2000);
+  
+  function renderPage(page) {
+  const board = document.getElementById("wishBoard");
+  board.innerHTML = "";
 
-  loadWishes();
-  setInterval(loadWishes, 60000);
+  const start = (page - 1) * pageSize;   // 當前頁的起始 index
+  const end = start + pageSize;          // 當前頁的結束 index
+  const pageData = allData.slice(start, end); // 截取要顯示的資料
+
+  pageData.forEach(row => {
+    if (row["祈福內容"]) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="symbol">福</div>
+        <div class="content">${row["祈福內容"]}</div>
+        <div class="author">🙏 ${row["祈福人"] || "匿名"}</div>
+        <div class="date">${row["時間戳記"]}</div>
+      `;
+      board.appendChild(card);
+    }
+  });
+
+  renderPagination(); // 分頁按鈕
+}
+
+  function renderPagination() {
+  const totalPages = Math.ceil(allData.length / pageSize); // 計算總頁數
+  const pagination = document.getElementById("pagination");
+  pagination.innerHTML = "";
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.innerText = i;
+    if (i === currentPage) btn.classList.add("active"); // 標記當前頁
+    btn.onclick = () => {
+      currentPage = i;
+      renderPage(currentPage); // 點擊時刷新該頁
+    };
+    pagination.appendChild(btn);
+  }
+}
+
+  
+  
+  
+  
+  setInterval(createRisingSymbol, 2000);
+  
+  
 </script>
+
 </body>
 </html>
