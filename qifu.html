@@ -17,7 +17,6 @@
       position: relative;
     }
 
-    /* 🌟 佛光漸層背景 */
     body::before {
       content: "";
       position: fixed;
@@ -62,8 +61,6 @@
       justify-content: space-between;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       position: relative;
-
-      /* 動畫效果 */
       opacity: 0;
       animation: fadeInUp 0.8s ease forwards, glow 4s infinite ease-in-out;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -114,37 +111,31 @@
       margin-top: 5px;
     }
 
-    /* 卡片進場動畫 */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* 卡片光暈呼吸效果 */
     @keyframes glow {
       0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
       50%      { box-shadow: 0 4px 20px rgba(191,164,111,0.6); }
     }
 
-    /* 點擊互動 */
     .card:active {
       transform: scale(0.97);
       box-shadow: 0 0 25px rgba(191,164,111,0.9);
     }
 
-    /* 背景緩慢流動 */
     @keyframes bgFlow {
       from { background-position: 0 0; }
       to   { background-position: 200px 200px; }
     }
 
-    /* 佛光旋轉 */
     @keyframes rotateLight {
       from { transform: translate(-50%, -50%) rotate(0deg); }
       to   { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
-    /* 往上飛的祈福字 */
     .falling {
       position: fixed;
       bottom: -50px;
@@ -163,36 +154,35 @@
   </style>
 
   <link rel="icon" type="image/png" href="DIZA.png">
-
 </head>
 <body>
   <h1>🧧 線上祈福牆 🧧</h1>
- 
-<br>
-<div style="margin: 20px 0; text-align: center;">
-  <a href="https://forms.gle/sFLdk3Cx75axtXCw7" target="_blank"
-     style="
-       display: inline-block !important;
-       cursor: pointer !important;
-       background: linear-gradient(135deg, #d4af37, #f9e79f);
-       color: #5a2d0c;
-       font-size: 20px;
-       font-weight: bold;
-       padding: 12px 28px;
-       border-radius: 30px;
-       text-decoration: none;
-       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-       transition: transform 0.2s, box-shadow 0.2s;
-       z-index: 9999;
-       position: relative;
-     "
-     onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)';"
-     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.15)';"
-  >
-    🕯 點此進入 線上留言祈福
-  </a>
-</div>
-  
+
+  <br>
+  <div style="margin: 20px 0; text-align: center;">
+    <a href="https://forms.gle/sFLdk3Cx75axtXCw7" target="_blank"
+       style="
+         display: inline-block !important;
+         cursor: pointer !important;
+         background: linear-gradient(135deg, #d4af37, #f9e79f);
+         color: #5a2d0c;
+         font-size: 20px;
+         font-weight: bold;
+         padding: 12px 28px;
+         border-radius: 30px;
+         text-decoration: none;
+         box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+         transition: transform 0.2s, box-shadow 0.2s;
+         z-index: 9999;
+         position: relative;
+       "
+       onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)';"
+       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.15)';"
+    >
+      🕯 點此進入 線上留言祈福
+    </a>
+  </div>
+
   <div class="board" id="wishBoard">
     <p>載入中...</p>
   </div>
@@ -214,22 +204,26 @@
       const board = document.getElementById("wishBoard");
       board.innerHTML = "";
 
-      data.forEach(row => {
-        if (row["祈福內容"]) {
-          const card = document.createElement("div");
-          card.className = "card";
+      // 依照時間戳記倒序排列，並加上動畫延遲
+      data
+        .sort((a, b) => new Date(b["時間戳記"]) - new Date(a["時間戳記"]))
+        .forEach((row, index) => {
+          if (row["祈福內容"]) {
+            const card = document.createElement("div");
+            card.className = "card";
 
-          const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-          card.style.animationDelay = (Math.random() * 0.8) + "s";
+            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+            // 依序延遲出現，每張卡片間隔 0.2 秒
+            card.style.animationDelay = (index * 0.2) + "s";
 
-          card.innerHTML = `
-            <div class="symbol">${symbol}</div>
-            <div class="content">${row["祈福內容"]}</div>
-            <div class="author">🙏 ${row["祈福人"] || "匿名"}</div>
-            <div class="date">${formatDate(row["時間戳記"])}</div>
-          `;
-          board.appendChild(card);
-        }
+            card.innerHTML = `
+              <div class="symbol">${symbol}</div>
+              <div class="content">${row["祈福內容"]}</div>
+              <div class="author">🙏 ${row["祈福人"] || "匿名"}</div>
+              <div class="date">${formatDate(row["時間戳記"])}</div>
+            `;
+            board.appendChild(card);
+          }
       });
     } catch (err) {
       console.error("載入失敗", err);
