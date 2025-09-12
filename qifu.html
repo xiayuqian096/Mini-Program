@@ -143,7 +143,7 @@
       color: rgba(139, 0, 0, 0.4);
       animation: rise linear forwards;
       pointer-events: none;
-      z-index: 1;
+      z-index: 9999;  /* 飛字在最上層 */
     }
 
     @keyframes rise {
@@ -394,8 +394,21 @@ function renderPagination() {
   }
 }
 
+  // 往上飛的祈福字
+  function createRisingSymbol() {
+    const el = document.createElement("div");
+    el.className = "falling";
+    el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+    el.style.left = Math.random() * window.innerWidth + "px";
+    el.style.animationDuration = (4 + Math.random() * 4) + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 8000);
+  }
+  
 loadWishes();
 setInterval(loadWishes, 30000);
+  
+  setInterval(createRisingSymbol, 2000);
 </script>
 </body>
 </html>
