@@ -5,30 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>恭祝地藏菩薩聖誕 線上祈福區</title>
   <style>
-    body {
-      font-family: "Noto Serif TC", serif;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
-      background: #fdfaf3 url("https://www.transparenttextures.com/patterns/paper-fibers.png");
-      background-size: cover;
-      overflow-x: hidden;
-      animation: bgFlow 60s linear infinite;
-      position: relative;
-    }
+body {
+  font-family: "Noto Serif TC", serif;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,223,128,0.25) 0%, transparent 70%);
-      transform: translate(-50%, -50%);
-      animation: rotateLight 60s linear infinite;
-      z-index: 0;
-    }
+  /* 背景設定 */
+  background-color: #F3E8E5; /* 底色（柔和米白色） */
+  background-image: url("https://xiayuqian096.github.io/Mini-Program/basemap.png"); /* 您上傳的圖片 */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;  /* 顯示完整圖片 */
+  background-attachment: fixed;
+
+  overflow-x: hidden;
+  position: relative;
+}
+
 
     h1 {
       color: #8b0000;
@@ -50,7 +44,8 @@
     }
 
     .card {
-      width: 200px;
+      width: 90%;   
+      max-width: 200px;
       min-height: 300px;
       background: #fffdf6;
       border: 2px solid #bfa46f;
@@ -59,7 +54,9 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+      margin: 16px auto;       /* 讓卡片左右自動置中 */
+      box-shadow: 0 8px 24px 8px rgba(0, 0, 0, 0.9);
       position: relative;
       opacity: 0;
       animation: fadeInUp 0.8s ease forwards, glow 4s infinite ease-in-out;
