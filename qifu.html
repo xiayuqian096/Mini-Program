@@ -226,8 +226,8 @@ const sheetURL = "https://opensheet.elk.sh/1YR3_qziz-R7c09fBh1QcKnQR5Dvyc0JgfJXd
 const symbols = ["福", "吉", "安", "祥"];
 
 function normalizeTime(str) {
-  // 拆出年月日與時間
-  const match = str.match(/(\d+)\/(\d+)\/(\d+)\s*(上午|下午)\s*(\d+):(\d+):(\d+)/);
+  // 支援 2025/09/13 上午 11:51:55
+  const match = str.match(/(\d{4})\/(\d{1,2})\/(\d{1,2})\s*(上午|下午)\s*(\d{1,2}):(\d{2}):(\d{2})/);
   if (!match) return str;
 
   let [ , year, month, day, ap, hour, minute, second ] = match;
@@ -235,17 +235,14 @@ function normalizeTime(str) {
   month = String(month).padStart(2, "0");
   day = String(day).padStart(2, "0");
   hour = parseInt(hour, 10);
-  minute = String(minute).padStart(2, "0");
-  second = String(second).padStart(2, "0");
 
-  // 上午 / 下午 轉換成 24 小時制
-  if (ap === "上午" && hour === 12) {
-    hour = 0;
-  } else if (ap === "下午" && hour < 12) {
-    hour += 12;
-  }
+  // 上午/下午 轉換
+  if (ap === "上午" && hour === 12) hour = 0;
+  if (ap === "下午" && hour < 12) hour += 12;
 
   hour = String(hour).padStart(2, "0");
+  minute = String(minute).padStart(2, "0");
+  second = String(second).padStart(2, "0");
 
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
