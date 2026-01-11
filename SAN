@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>新春佛緣顯相</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Noto Serif TC", "PingFang TC", "Heiti TC", serif;
+      background: radial-gradient(circle at top, #fff3c4 0%, #ffd88a 35%, #d60000 100%);
+      color: #7a0000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 760px;
+      width: 100%;
+      padding: 40px 20px 60px;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      color: #b40000;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 0 #ffe9b5;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #9a1b1b;
+      margin-bottom: 40px;
+    }
+
+    .buddha-frame {
+      width: 520px;
+      height: 520px;
+      padding: 10px;
+      background: radial-gradient(circle, #fff1a8 0%, #ffd24d 35%, #c40000 100%);
+      border-radius: 30px;
+      box-shadow:
+        0 0 50px rgba(255, 210, 77, 0.9),
+        0 0 90px rgba(255, 80, 0, 0.45),
+        inset 0 0 25px rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+    }
+
+    .buddha-frame img {
+      width: 500px;
+      height: 500px;
+      object-fit: cover;
+      border-radius: 18px;
+      background: #000;
+    }
+
+    .buddha-name {
+      font-size: 24px;
+      font-weight: 700;
+      color: #b40000;
+      margin-top: 20px;
+    }
+
+    .buddha-blessing {
+      font-size: 16px;
+      color: #a03a00;
+      margin-top: 10px;
+      letter-spacing: 1.5px;
+    }
+
+    .draw-button {
+      margin-top: 46px;
+      padding: 16px 44px;
+      font-size: 17px;
+      font-weight: 600;
+      color: #b40000;
+      background: linear-gradient(135deg, #fff3c4, #ffd24d);
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #c40000, 0 12px 25px rgba(196,0,0,0.35);
+      transition: all 0.25s ease;
+    }
+
+    .draw-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #c40000, 0 16px 35px rgba(196,0,0,0.45);
+    }
+
+    .draw-button:active {
+      transform: translateY(2px);
+      box-shadow: 0 3px 0 #c40000;
+    }
+
+    .draw-button:hover {
+      background: rgba(255, 216, 138, 0.15);
+      box-shadow: 0 0 18px rgba(255, 216, 138, 0.5);
+    }
+
+    @media (max-width: 600px) {
+      .buddha-frame {
+        width: 320px;
+        height: 320px;
+      }
+
+      .buddha-frame img {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">新春佛緣顯相</div>
+    <div class="subtitle">靜心一念，隨緣而現</div>
+
+    <div class="buddha-frame">
+      <img id="buddhaImage" src="images/FOU.png" alt="佛緣顯相" />
+    </div>
+
+    <div id="buddhaName" class="buddha-name">南無 ○○○ 佛</div>
+    <div class="buddha-blessing">新春吉祥・與此尊佛有緣</div>
+
+    <button class="draw-button" onclick="drawBuddha()">靜心片刻，再迎下一尊佛緣</button>
+  </div>
+
+  <script>
+    const buddhas = [
+      { name: "南無 釋迦牟尼佛", image: "images/FOU.png" },
+      { name: "南無 阿彌陀佛", image: "images/FOU.png" },
+      { name: "南無 藥師琉璃光如來", image: "images/FOU.png" }
+      // 請依序加入至 3000 尊以上
+    ];
+
+    function drawBuddha() {
+      const randomIndex = Math.floor(Math.random() * buddhas.length);
+      const selected = buddhas[randomIndex];
+
+      document.getElementById("buddhaImage").src = selected.image;
+      document.getElementById("buddhaName").textContent = selected.name;
+    }
+  </script>
+</body>
+</html>
