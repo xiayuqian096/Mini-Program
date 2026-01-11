@@ -58,15 +58,9 @@
     }
 
     @keyframes frameBreath {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.015);
-      }
-      100% {
-        transform: scale(1);
-      }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.015); }
+      100% { transform: scale(1); }
     }
 
     .buddha-frame img {
@@ -76,11 +70,12 @@
       border-radius: 28px;
       background: #000;
       z-index: 1;
+      transition: transform 0.4s ease-out;
     }
 
     .buddha-overlay {
       position: absolute;
-      bottom: 70px;
+      bottom: 42px;
       left: 50%;
       transform: translateX(-50%);
       padding: 0;
@@ -91,7 +86,7 @@
     }
 
     .buddha-name-overlay {
-      font-size: 30px;
+      font-size: 26px;
       font-weight: 700;
       color: #fffbe6;
       letter-spacing: 4px;
@@ -106,24 +101,9 @@
     }
 
     @keyframes glowPulse {
-      0% {
-        text-shadow:
-          0 0 6px rgba(255,255,255,0.7),
-          0 0 14px rgba(255,215,100,0.7),
-          0 0 22px rgba(255,180,0,0.6);
-      }
-      50% {
-        text-shadow:
-          0 0 10px rgba(255,255,255,1),
-          0 0 22px rgba(255,220,120,1),
-          0 0 40px rgba(255,180,0,1);
-      }
-      100% {
-        text-shadow:
-          0 0 6px rgba(255,255,255,0.7),
-          0 0 14px rgba(255,215,100,0.7),
-          0 0 22px rgba(255,180,0,0.6);
-      }
+      0% { text-shadow: 0 0 6px rgba(255,255,255,0.7),0 0 14px rgba(255,215,100,0.7),0 0 22px rgba(255,180,0,0.6); }
+      50% { text-shadow: 0 0 10px rgba(255,255,255,1),0 0 22px rgba(255,220,120,1),0 0 40px rgba(255,180,0,1); }
+      100% { text-shadow: 0 0 6px rgba(255,255,255,0.7),0 0 14px rgba(255,215,100,0.7),0 0 22px rgba(255,180,0,0.6); }
     }
 
     .buddha-blessing {
@@ -150,6 +130,7 @@
     .draw-button:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 0 #c40000, 0 16px 35px rgba(196,0,0,0.45);
+      background: rgba(255, 216, 138, 0.15);
     }
 
     .draw-button:active {
@@ -157,21 +138,9 @@
       box-shadow: 0 3px 0 #c40000;
     }
 
-    .draw-button:hover {
-      background: rgba(255, 216, 138, 0.15);
-      box-shadow: 0 0 18px rgba(255, 216, 138, 0.5);
-    }
-
     @media (max-width: 600px) {
-      .buddha-frame {
-        width: 320px;
-        height: 320px;
-      }
-
-      .buddha-frame img {
-        width: 300px;
-        height: 300px;
-      }
+      .buddha-frame { width: 320px; height: 320px; }
+      .buddha-frame img { width: 300px; height: 300px; }
     }
   </style>
 </head>
@@ -181,9 +150,9 @@
     <div class="subtitle">靜心一念，隨緣而現</div>
 
     <div class="buddha-frame">
-      <img id="buddhaImage" src="images/FOU.png" alt="佛緣顯相" />
+      <img id="buddhaImage" src="images/FOU2.png" alt="佛緣顯相" />
       <div class="buddha-overlay">
-        <div id="buddhaName" class="buddha-name-overlay">南無佛</div>
+        <div id="buddhaName" class="buddha-name-overlay">南無 ○○○ 佛</div>
       </div>
     </div>
 
@@ -194,19 +163,25 @@
 
   <script>
     const buddhas = [
-      { name: "南無 釋迦牟尼佛", image: "images/FOU.png" },
-      { name: "南無 阿彌陀佛", image: "images/FOU.png" },
-      { name: "南無 藥師琉璃光如來", image: "images/FOU.png" }
-      // 請依序加入至 3000 尊以上
+      { name: "南無 釋迦牟尼佛", image: "images/FOU2.png" },
+      { name: "南無 阿彌陀佛", image: "images/FOU2.png" },
+      { name: "南無 藥師琉璃光如來", image: "images/FOU2.png" }
     ];
 
     function drawBuddha() {
       const randomIndex = Math.floor(Math.random() * buddhas.length);
       const selected = buddhas[randomIndex];
 
-      document.getElementById("buddhaImage").src = selected.image;
-      document.getElementById("buddhaName").textContent = selected.name;
-      document.querySelector(".buddha-name-overlay").textContent = selected.name;
+      const img = document.getElementById("buddhaImage");
+      const nameOverlay = document.getElementById("buddhaName");
+
+      // 放大瞬間效果
+      img.style.transform = 'scale(1.08)';
+      setTimeout(() => {
+        img.src = selected.image;
+        nameOverlay.textContent = selected.name;
+        img.style.transform = 'scale(1)';
+      }, 200);
     }
   </script>
 </body>
