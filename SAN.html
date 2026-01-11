@@ -39,34 +39,91 @@
     }
 
     .buddha-frame {
+      position: relative;
       width: 520px;
       height: 520px;
-      padding: 10px;
-      background: radial-gradient(circle, #fff1a8 0%, #ffd24d 35%, #c40000 100%);
-      border-radius: 30px;
+      padding: 22px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.9), rgba(255,215,120,0.8) 30%, rgba(255,160,40,0.6) 55%, rgba(214,0,0,0.85) 100%),
+        repeating-radial-gradient(circle at center, rgba(255,255,255,0.15) 0, rgba(255,255,255,0.15) 2px, transparent 3px, transparent 6px);
+      border-radius: 42% 38% 46% 44% / 38% 46% 40% 44%;
       box-shadow:
-        0 0 50px rgba(255, 210, 77, 0.9),
-        0 0 90px rgba(255, 80, 0, 0.45),
-        inset 0 0 25px rgba(255, 255, 255, 0.5);
+        0 0 70px rgba(255, 210, 77, 0.95),
+        0 0 140px rgba(255, 120, 0, 0.45);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 28px;
+      margin: 0 auto 34px;
+      animation: frameBreath 6s ease-in-out infinite;
+    }
+
+    @keyframes frameBreath {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.015);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     .buddha-frame img {
       width: 500px;
       height: 500px;
       object-fit: cover;
-      border-radius: 18px;
+      border-radius: 28px;
       background: #000;
+      z-index: 1;
     }
 
-    .buddha-name {
-      font-size: 24px;
+    .buddha-overlay {
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0;
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      z-index: 2;
+    }
+
+    .buddha-name-overlay {
+      font-size: 30px;
       font-weight: 700;
-      color: #b40000;
-      margin-top: 20px;
+      color: #fffbe6;
+      letter-spacing: 4px;
+      white-space: nowrap;
+      text-align: center;
+      text-shadow:
+        0 0 6px rgba(255,255,255,0.9),
+        0 0 14px rgba(255,215,120,0.95),
+        0 0 28px rgba(255,180,0,0.9),
+        0 0 46px rgba(255,120,0,0.6);
+      animation: glowPulse 2.8s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0% {
+        text-shadow:
+          0 0 6px rgba(255,255,255,0.7),
+          0 0 14px rgba(255,215,100,0.7),
+          0 0 22px rgba(255,180,0,0.6);
+      }
+      50% {
+        text-shadow:
+          0 0 10px rgba(255,255,255,1),
+          0 0 22px rgba(255,220,120,1),
+          0 0 40px rgba(255,180,0,1);
+      }
+      100% {
+        text-shadow:
+          0 0 6px rgba(255,255,255,0.7),
+          0 0 14px rgba(255,215,100,0.7),
+          0 0 22px rgba(255,180,0,0.6);
+      }
     }
 
     .buddha-blessing {
@@ -124,10 +181,12 @@
     <div class="subtitle">靜心一念，隨緣而現</div>
 
     <div class="buddha-frame">
-      <img id="buddhaImage" src="images/FOU.png" alt="佛緣顯相" />
+      <img id="buddhaImage" src="images/buddha01.png" alt="佛緣顯相" />
+      <div class="buddha-overlay">
+        <div id="buddhaName" class="buddha-name-overlay">南無佛</div>
+      </div>
     </div>
 
-    <div id="buddhaName" class="buddha-name">南無 ○○○ 佛</div>
     <div class="buddha-blessing">新春吉祥・與此尊佛有緣</div>
 
     <button class="draw-button" onclick="drawBuddha()">靜心片刻，再迎下一尊佛緣</button>
@@ -135,9 +194,9 @@
 
   <script>
     const buddhas = [
-      { name: "南無 釋迦牟尼佛", image: "images/FOU.png" },
-      { name: "南無 阿彌陀佛", image: "images/FOU.png" },
-      { name: "南無 藥師琉璃光如來", image: "images/FOU.png" }
+      { name: "南無 釋迦牟尼佛", image: "images/buddha01.png" },
+      { name: "南無 阿彌陀佛", image: "images/buddha02.png" },
+      { name: "南無 藥師琉璃光如來", image: "images/buddha03.png" }
       // 請依序加入至 3000 尊以上
     ];
 
@@ -147,6 +206,7 @@
 
       document.getElementById("buddhaImage").src = selected.image;
       document.getElementById("buddhaName").textContent = selected.name;
+      document.querySelector(".buddha-name-overlay").textContent = selected.name;
     }
   </script>
 </body>
