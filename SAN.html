@@ -5,7 +5,7 @@
 <title>新春抽佛號</title>
 
 <style>
-/* ====== 新春整體背景 ====== */
+/* ===== 新春整體背景 ===== */
 body {
   margin: 0;
   min-height: 100vh;
@@ -17,89 +17,90 @@ body {
   font-family: "Noto Serif TC", serif;
 }
 
-/* ====== 主容器 ====== */
+/* ===== 主容器 ===== */
 .container {
   text-align: center;
 }
 
-/* ====== 新春燈籠光相框 ====== */
+/* ===== 佛相顯現主體（整體動） ===== */
 .buddha-frame {
   position: relative;
   width: 500px;
   height: 500px;
-  margin: 0 auto 34px;
-  border-radius: 50px;
+  margin: 0 auto 36px;
+  border-radius: 48px;
+  transform: scale(1);
+  transition: transform 0.9s cubic-bezier(.16,1,.3,1);
 }
 
-/* 圖片本體 */
+/* 顯相放大（整體） */
+.buddha-frame.active {
+  transform: scale(1.04);
+}
+
+/* ===== 圖片本體（永遠不動、不裁） ===== */
 .buddha-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 36px;
   position: relative;
-  z-index: 3;
-  transform: scale(1);
-  transition: transform 0.7s cubic-bezier(.2,.9,.3,1);
+  z-index: 2;
 }
 
-/* 抽取瞬間放大 */
-.buddha-frame.active img {
-  transform: scale(1.06);
-}
-
-/* 外層新春燈籠金紅光暈 */
+/* ===== 外層新春燈海光（背景融合，不碰圖片） ===== */
 .buddha-frame::before {
   content: "";
   position: absolute;
-  inset: -46px;
-  border-radius: 70px;
+  inset: -52px;
+  border-radius: 80px;
   background:
     radial-gradient(circle at center,
-      rgba(255, 240, 190, 0.9),
-      rgba(255, 180, 90, 0.55),
-      rgba(255, 90, 40, 0.35),
-      rgba(180, 0, 0, 0.35),
+      rgba(255, 245, 200, 0.95),
+      rgba(255, 200, 110, 0.6),
+      rgba(255, 120, 50, 0.45),
+      rgba(190, 0, 0, 0.35),
       transparent 72%);
-  filter: blur(28px);
-  z-index: 1;
+  filter: blur(30px);
+  z-index: 0;
+  animation: glowBreath 3.8s ease-in-out infinite;
 }
 
-/* 內層紅金法光，讓圖片融進背景 */
+/* ===== 內層紅金氣場（不覆蓋圖片） ===== */
 .buddha-frame::after {
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: 36px;
+  inset: -8px;
+  border-radius: 44px;
   box-shadow:
-    inset 0 0 60px rgba(255, 220, 140, 0.55),
-    inset 0 0 120px rgba(255, 120, 0, 0.45),
-    inset 0 0 180px rgba(200, 0, 0, 0.35);
-  z-index: 4;
+    0 0 60px rgba(255, 220, 140, 0.55),
+    0 0 120px rgba(255, 140, 40, 0.45),
+    0 0 200px rgba(200, 0, 0, 0.35);
+  z-index: 1;
   pointer-events: none;
 }
 
-/* ====== 佛名：新春金燈顯現 ====== */
+/* ===== 新春金燈佛名 ===== */
 .buddha-name {
   position: absolute;
-  bottom: 50px;
+  bottom: 46px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 5;
-  font-size: clamp(22px, 5vw, 28px);
-  white-space: nowrap;
+  z-index: 3;
+  font-size: clamp(22px, 5vw, 32px);
   font-weight: 600;
-  color: #fff3c6;
   letter-spacing: 2px;
+  color: #fff6cf;
+  white-space: nowrap;
   text-shadow:
-    0 0 10px rgba(255, 240, 180, 1),
-    0 0 26px rgba(255, 180, 80, 0.95),
-    0 0 52px rgba(255, 120, 40, 0.85),
-    0 0 90px rgba(200, 0, 0, 0.75);
+    0 0 10px rgba(255, 245, 190, 1),
+    0 0 28px rgba(255, 190, 90, 0.95),
+    0 0 56px rgba(255, 120, 40, 0.85),
+    0 0 96px rgba(200, 0, 0, 0.75);
   pointer-events: none;
 }
 
-/* ====== 新春按鈕 ====== */
+/* ===== 新春按鈕 ===== */
 button {
   font-size: 22px;
   padding: 16px 46px;
@@ -112,7 +113,7 @@ button {
   box-shadow:
     0 10px 0 #b40000,
     0 18px 36px rgba(255, 140, 40, 0.6),
-    inset 0 0 12px rgba(255,255,255,0.8);
+    inset 0 0 12px rgba(255,255,255,0.85);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -121,7 +122,19 @@ button:hover {
   box-shadow:
     0 14px 0 #b40000,
     0 26px 46px rgba(255, 140, 40, 0.75),
-    inset 0 0 16px rgba(255,255,255,0.9);
+    inset 0 0 16px rgba(255,255,255,0.95);
+}
+
+/* ===== 光感呼吸動畫 ===== */
+@keyframes glowBreath {
+  0%, 100% {
+    opacity: 0.85;
+    filter: blur(28px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(34px);
+  }
 }
 </style>
 </head>
@@ -131,7 +144,7 @@ button:hover {
 
   <div class="buddha-frame" id="frame">
     <div class="buddha-name" id="buddhaName">南無佛</div>
-    <img id="buddhaImg" src="images/FOU.png">
+    <img id="buddhaImg" src="images/FOU.png" alt="佛緣顯相">
   </div>
 
   <button onclick="drawBuddha()">新春迎佛緣</button>
@@ -159,8 +172,9 @@ function drawBuddha() {
     img.src = pick.img;
     name.textContent = pick.name;
     frame.classList.add("active");
-  }, 60);
+  }, 80);
 }
 </script>
+
 </body>
 </html>
