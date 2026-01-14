@@ -140,6 +140,12 @@ button:hover {
   }
 }
   
+  /* ===== 佛緣顯相上方按鈕間距 ===== */
+#buddhaSection button {
+  margin-bottom: 80px;
+}
+
+  
 /* ===== 文字通用設定 ===== */
 section {
   max-width: 720px;
@@ -151,15 +157,15 @@ section {
 
 /* ===== 主標題 ===== */
 #beforeDraw h1 {
-  font-size: clamp(26px, 6vw, 36px);
-  margin-bottom: 24px;
+  font-size: clamp(26px, 6vw, 40px);
+  margin-bottom: 28px;
   letter-spacing: 4px;
   color: #7a1200;
 }
 
 /* ===== 小標題 ===== */
 #beforeDraw h2 {
-  margin-top: 48px;
+  margin-top: 60px;
   margin-bottom: 16px;
   font-size: 22px;
   letter-spacing: 3px;
@@ -175,8 +181,8 @@ section {
 
 /* ===== 抽佛號後文字 ===== */
 #afterDraw {
-  margin-top: 56px;
-  padding-top: 40px;
+  margin-top: 5px;
+  padding-top: 10px;
   border-top: 1px solid rgba(140, 40, 0, 0.25);
 }
 
@@ -191,7 +197,7 @@ section {
   content: "❁";
   display: block;
   text-align: center;
-  font-size: 20px;
+  font-size: 40px;
   margin-bottom: 24px;
   color: rgba(120, 30, 0, 0.6);
 }
@@ -240,13 +246,15 @@ section {
   </section>
   
   <section id="buddhaSection">
+
+          <button onclick="drawBuddha()">新春迎佛緣</button>
     
   <div class="buddha-frame" id="frame">
     <div class="buddha-name" id="buddhaName">南無佛</div>
     <img id="buddhaImg" src="images/FOU.png" alt="佛緣顯相">
   </div>
 
-  <button onclick="drawBuddha()">新春迎佛緣</button>
+
 </section>
   
   
