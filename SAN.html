@@ -20,6 +20,9 @@ body {
 /* ===== 主容器 ===== */
 .container {
   text-align: center;
+    display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* ===== 佛相顯現主體（整體動） ===== */
@@ -136,19 +139,142 @@ button:hover {
     filter: blur(34px);
   }
 }
+  
+/* ===== 文字通用設定 ===== */
+section {
+  max-width: 720px;
+  margin: 0 auto 48px;
+  padding: 0 20px;
+  line-height: 1.9;
+  color: #5a1c00;
+}
+
+/* ===== 主標題 ===== */
+#beforeDraw h1 {
+  font-size: clamp(26px, 6vw, 36px);
+  margin-bottom: 24px;
+  letter-spacing: 4px;
+  color: #7a1200;
+}
+
+/* ===== 小標題 ===== */
+#beforeDraw h2 {
+  margin-top: 48px;
+  margin-bottom: 16px;
+  font-size: 22px;
+  letter-spacing: 3px;
+  color: #8c1f00;
+}
+
+/* ===== 一般段落（閱讀型） ===== */
+#beforeDraw p {
+  text-align: left;
+  font-size: 17px;
+  margin-bottom: 20px;
+}
+
+/* ===== 抽佛號後文字 ===== */
+#afterDraw {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(140, 40, 0, 0.25);
+}
+
+#afterDraw p {
+  text-align: center;
+  font-size: 18px;
+  color: #6a2000;
+  margin-bottom: 22px;
+}
+
+#afterDraw::before {
+  content: "❁";
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 24px;
+  color: rgba(120, 30, 0, 0.6);
+}
+
+  
 </style>
 </head>
 
 <body>
 <div class="container">
 
+   <section id="beforeDraw">
+    <h1>新春一念發心．與三千佛相應</h1>
+
+    <p>
+      農曆新年期間，地藏禪寺舉辦<br>
+      「三千佛洪名寶懺吉祥大法會」。
+    </p>
+
+    <p>
+      三千佛，<br>
+      乃過去莊嚴劫、現在賢劫、未來星宿劫之千佛，<br>
+      象徵三世諸佛無量功德、無盡悲願。
+    </p>
+
+    <p>
+      禮拜三千佛，<br>
+      是發露懺悔、培植福慧、廣結佛緣的殊勝法門，<br>
+      亦是於新春之際，回歸清淨本心的重要行持。
+    </p>
+
+    <p>
+      新春因緣成熟，<br>
+      願大眾承接一尊與自己當下因緣相應的佛號，<br>
+      以此發心立願，作為新一年的祝禱與依止。
+    </p>
+
+    <h2>抽佛號前的提醒</h2>
+
+    <p>
+      抽佛號前，請先靜心片刻。<br><br>
+      合掌，虔誠稱念「南無本師釋迦牟尼佛」，<br>
+      發願以清淨心、恭敬心，承接佛力的加持。
+    </p>
+
+  </section>
+  
+  <section id="buddhaSection">
+    
   <div class="buddha-frame" id="frame">
     <div class="buddha-name" id="buddhaName">南無佛</div>
     <img id="buddhaImg" src="images/FOU.png" alt="佛緣顯相">
   </div>
 
   <button onclick="drawBuddha()">新春迎佛緣</button>
+</section>
+  
+  
+  
+      <section id="afterDraw" style="display:none;">
+    <p>
+      此佛號，非偶然所得，<br>
+      乃是您與此尊佛的深厚因緣。
+    </p>
 
+    <p>
+      本寺於新春期間舉辦「禮拜三千佛法會」，<br>
+      於法會中虔誠唱誦三千佛洪名、至心禮拜，<br>
+      共植清淨福田，成就新春吉祥因緣，<br>
+      業障減輕、福慧增長、平安大吉祥。
+    </p>
+
+    <p>
+      發心虔誠供養三寶、護持三千佛道場，<br>
+      以清淨供養，成就殊勝功德。
+    </p>
+
+    <p>
+      一分清淨供養，一分無量福田；<br>
+      新春一念發心，與諸佛同在吉祥道場之中。
+    </p>
+  </section>
+  
 </div>
 
 <script>
@@ -3215,6 +3341,8 @@ function drawBuddha() {
   const frame = document.getElementById("frame");
   const img = document.getElementById("buddhaImg");
   const name = document.getElementById("buddhaName");
+  const afterDraw = document.getElementById("afterDraw");
+  const buddhaSection = document.getElementById("buddhaSection");
 
   frame.classList.remove("active");
 
@@ -3223,9 +3351,23 @@ function drawBuddha() {
     img.src = pick.img;
     name.textContent = pick.name;
     frame.classList.add("active");
+
+    // 顯示抽佛號後文字
+    afterDraw.style.display = "block";
+
+    // 捲動畫面，讓佛號顯現在最上方
+    buddhaSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
   }, 80);
 }
+
 </script>
 
+  
+
+  
 </body>
 </html>
