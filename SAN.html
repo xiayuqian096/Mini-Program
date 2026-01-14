@@ -2,6 +2,9 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
 <title>新春抽佛號</title>
 
 <style>
@@ -200,6 +203,57 @@ section {
   font-size: 40px;
   margin-bottom: 24px;
   color: rgba(120, 30, 0, 0.6);
+}
+/* ===== 手機版優化 ===== */
+@media (max-width: 768px) {
+
+  body {
+    align-items: flex-start;
+  }
+
+  .container {
+    padding: 24px 16px 60px;
+  }
+
+  /* 佛緣顯相：手機放大 */
+  .buddha-frame {
+    width: 90vw;
+    height: 90vw;
+    max-width: 380px;
+    max-height: 380px;
+    margin-bottom: 28px;
+  }
+
+  /* 佛名字級放大 */
+  .buddha-name {
+    font-size: 24px;
+    bottom: 28px;
+  }
+
+  /* 標題放大 */
+  h1 {
+    font-size: 26px;
+    line-height: 1.4;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  /* 內文改成好讀寬度 */
+  section p {
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 36em;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 按鈕變大、好按 */
+  button {
+    font-size: 20px;
+    padding: 18px 42px;
+  }
 }
 
   
