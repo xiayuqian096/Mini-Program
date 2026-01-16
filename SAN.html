@@ -23,10 +23,15 @@ body {
 /* ===== 主容器 ===== */
 .container {
   text-align: center;
-    display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
+
+  max-width: 860px;      /* 核心：限制內容寬度 */
+  width: 100%;           /* 滿版但受 max-width 約束 */
+  margin: 0 auto;        /* 核心：左右真正置中 */
 }
+
 
 /* ===== 佛相顯現主體（整體動） ===== */
 .buddha-frame {
@@ -165,6 +170,7 @@ section {
   letter-spacing: 2px;
   color: #7a1200;
   white-space: nowrap;
+  font-weight: 800;
 }
 
 /* ===== 小標題 ===== */
@@ -208,10 +214,6 @@ section {
 /* ===== 手機版優化 ===== */
 @media (max-width: 768px) {
 
-  body {
-    align-items: flex-start;
-  }
-
   .container {
     padding: 24px 16px 60px;
   }
@@ -235,6 +237,8 @@ section {
   h1 {
     font-size: 26px;
     line-height: 1.4;
+    font-weight: 800;
+    letter-spacing: 0px;
   }
 
   h2 {
@@ -315,10 +319,10 @@ section {
   
   
       <section id="afterDraw" style="display:none;">
-    <p>
+    <h2>
       此佛號，非偶然所得，<br>
       乃是您與此尊佛的深厚因緣。
-    </p>
+    </h2>
 
     <p>
       本寺於新春期間舉辦「禮拜三千佛法會」，<br>
