@@ -263,11 +263,20 @@ section {
   }
 }
 
-  #afterDraw h2 {
-  color: #7a1200;
+/* ===== 抽佛號後主句・莊嚴金光版 ===== */
+#afterDraw h2 {
+  color: #fff4cc;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-align: center;
+
   text-shadow:
-    0 0 8px rgba(255, 220, 160, 1);
+    0 0 3px rgba(255, 255, 235, 1),     /* 內層白金核心 */
+    0 0 10px rgba(255, 220, 160, 0.95), /* 主金光 */
+    0 0 22px rgba(255, 160, 80, 0.8),   /* 橙金外擴 */
+    0 0 44px rgba(180, 0, 0, 0.55);     /* 新春紅氣場 */
 }
+
   
 </style>
 </head>
@@ -313,7 +322,7 @@ section {
   
   <section id="buddhaSection">
 
-          <button onclick="drawBuddha()">新春迎佛緣</button>
+          <button onclick="drawBuddha()">點我抽佛號</button>
     
   <div class="buddha-frame" id="frame">
     <div class="buddha-name" id="buddhaName">南無佛</div>
