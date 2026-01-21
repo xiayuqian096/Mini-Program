@@ -277,6 +277,57 @@ section {
     0 0 42px rgba(180, 0, 0, 0.45);     /* 遠距新春紅氣場 */
 }
 
+/* ===== 發心功德行動區 ===== */
+.merit-action {
+  margin-top: 46px;
+  text-align: center;
+}
+
+/* ===== 發心功德按鈕 ===== */
+.merit-btn {
+  display: inline-block;
+  padding: 18px 48px;
+  font-size: 22px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  font-weight: 800;
+
+  color: #7a1e00;
+  background: linear-gradient(
+    135deg,
+    #fff3c4,
+    #ffd36a,
+    #ffb300
+  );
+
+  border-radius: 999px;
+
+  box-shadow:
+    0 10px 0 #b40000,
+    0 18px 36px rgba(255, 140, 40, 0.55),
+    inset 0 0 12px rgba(255, 255, 255, 0.85);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* 滑過：微升，不浮誇 */
+.merit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 14px 0 #b40000,
+    0 26px 46px rgba(255, 140, 40, 0.7),
+    inset 0 0 16px rgba(255, 255, 255, 0.95);
+}
+
+/* 手機版再放大一點，好按 */
+@media (max-width: 768px) {
+  .merit-btn {
+    font-size: 21px;
+    padding: 20px 46px;
+  }
+}
 
   
 </style>
@@ -362,6 +413,18 @@ section {
       一分清淨供養，一分無量福田；<br>
       新春一念發心，與諸佛同在吉祥道場之中。
     </p>
+        
+        <div class="merit-action">
+  <a
+    href="https://forms.gle/hA1WJzeQJPBhN2Px6"
+    target="_blank"
+    rel="noopener"
+    class="merit-btn"
+  >
+    發心護持三千世尊佛
+  </a>
+</div>
+
         
   </section>
   
